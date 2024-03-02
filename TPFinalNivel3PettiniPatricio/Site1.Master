@@ -32,6 +32,18 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="ArticulosABM.aspx">Agregar Articulo</a>
                         </li>
+                        <div class="d-flex">
+                            <%if (Session["user"] == null)
+                                {
+                            %>
+                            <a href="LogIn.aspx" class="btn btn-primary">Iniciar Sesion</a>
+                            <a href="Registro.aspx" class="btn btn-secondary">Registro</a>
+                        </div>
+                        <%}
+                            else
+                            {  %>
+                        <asp:Button ID="btnCerrarSesion" OnClick="btnCerrarSesion_Click" CssClass="btn btn-danger" runat="server" Text="Cerrar Sesion" />
+                        <%} %>
                     </ul>
                 </div>
             </div>

@@ -18,12 +18,19 @@
                     <h5 class="card-title"><%: articulo.Nombre %></h5>
                     <p class="card-text"><%: articulo.Marca.Descripcion %></p>
                     <p class="card-text"><%: articulo.Precio %></p>
-                    <a href="Detalle.aspx?id=<%: articulo.Id %>">Ver detalle</a>
-                    <a class="btn btn-primary" href="ArticulosABM.aspx?id=<%#Eval("Id") %>">Accion</a>
+                    <%if (!EsAdmin)
+                        {%>
+                    <a href="ArticulosABM.aspx?id=<%: articulo.Id %>">Ver</a>
+                    <%} %>
+                    <%if (EsAdmin)
+                        {%>
+                    <a class="btn btn-primary" href="ArticulosABM.aspx?id=<%:articulo.Id%>">Accion</a>
+                    <%} %>
                 </div>
             </div>
         </div>
         <% } %>
+        <a href="ArticulosABM.aspx" class="btn btn-primary">Agregar producto</a>
     </div>
 
 </asp:Content>

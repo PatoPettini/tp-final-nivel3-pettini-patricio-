@@ -13,5 +13,10 @@ namespace TPFinalNivel3PettiniPatricio
         {
 
         }
+        protected void btnCerrarSesion_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Response.Redirect("login.aspx");
+        }
     }
 }

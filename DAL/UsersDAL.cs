@@ -35,7 +35,6 @@ namespace Business
             usuario.email = user.Email;
             usuario.pass = user.Pass;
             usuario.admin = user.admin;
-            usuario.urlImagenPerfil = user.urlImagenPerfil;
             using (Context context= new Context())
             {
                 context.USERS.Add(usuario);
@@ -50,8 +49,6 @@ namespace Business
                 USERS usuario = context.USERS.FirstOrDefault(u => u.Id == user.Id);
                 usuario.nombre = user.Nombre;
                 usuario.apellido = user.Apellido;
-                usuario.email = user.Email;//puedo sacar las propiedades que no van a cambiar
-                usuario.pass = user.Pass;
                 usuario.admin = user.admin;
                 usuario.urlImagenPerfil = user.urlImagenPerfil;
                 context.SaveChanges();

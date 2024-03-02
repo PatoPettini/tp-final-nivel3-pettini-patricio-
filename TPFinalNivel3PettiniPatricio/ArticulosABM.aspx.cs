@@ -42,8 +42,22 @@ namespace TPFinalNivel3PettiniPatricio
                     txtPrecio.Text = articulo.Precio.ToString();
                     imagenID.ImageUrl = txtImagen.Text;
                 }
+                UsersEntity user = (UsersEntity)Session["user"];
+                if (!Validaciones.EsAdmin(user))
+                {
+                    txtCodigo.Enabled = false;
+                    txtNombre.Enabled = false;
+                    txtDescripcion.Enabled = false;
+                    txtImagen.Enabled = false;
+                    txtPrecio.Enabled = false;
+                    ddlCategoria.Enabled = false;
+                    ddlMarca.Enabled = false;
+                    btnAgregar.Visible=false;
+                    btnEliminar.Visible=false;
+                }
             }
         }
+
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -84,7 +98,7 @@ namespace TPFinalNivel3PettiniPatricio
 
         protected void txtImagen_TextChanged(object sender, EventArgs e)
         {
-            imagenID.ImageUrl= txtImagen.Text;
+            imagenID.ImageUrl = txtImagen.Text;
         }
     }
 }

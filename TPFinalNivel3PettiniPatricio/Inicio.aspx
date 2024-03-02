@@ -17,8 +17,11 @@
                                     <h5 class="card-title"><%#Eval("Nombre") %></h5>
                                     <p class="card-text"><%#Eval("Marca.Descripcion") %></p>
                                     <p class="card-text"><%#Eval("Precio") %></p>
-                                    <a href="Detalle.aspx?id=<%#Eval("Id") %>">Ver detalle</a>
+                                    <a href="ArticulosABM.aspx?id=<%#Eval("Id") %>">Ver</a>
+                                    <%if (EsAdmin)
+                                        {%>
                                     <a class="btn btn-primary" href="ArticulosABM.aspx?id=<%#Eval("Id") %>">Accion</a>
+                                    <%} %>
                                 </div>
                             </div>
                         </div>

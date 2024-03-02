@@ -8,17 +8,13 @@ namespace DAL
 
     public partial class USERS
     {
-        [Key]
-        [Column(Order = 0)]
         public int Id { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
+        [Required]
         [StringLength(100)]
         public string email { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
+        [Required]
         [StringLength(20)]
         public string pass { get; set; }
 
@@ -31,8 +27,6 @@ namespace DAL
         [StringLength(500)]
         public string urlImagenPerfil { get; set; }
 
-        [Key]
-        [Column(Order = 3)]
         public bool admin { get; set; }
     }
 }

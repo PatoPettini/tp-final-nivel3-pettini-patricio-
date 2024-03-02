@@ -24,5 +24,14 @@ namespace Business
         {
             usersDAL.Alta(user);
         }
+
+        public UsersEntity Validar(UsersEntity user)
+        {
+            foreach(UsersEntity usuario in GetUsers())
+            {
+                if(usuario.Email==user.Email && usuario.Pass==user.Pass) return usuario;
+            }
+            return null;
+        }
     }
 }
