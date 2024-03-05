@@ -27,9 +27,6 @@
                             <a class="nav-link active" aria-current="page" href="Inicio.aspx">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="ArticulosConForeach.aspx">Home2 (ACF)</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="ArticulosABM.aspx">Agregar Articulo</a>
                         </li>
                         <div class="d-flex">

@@ -25,7 +25,7 @@ namespace TPFinalNivel3PettiniPatricio
                 Pass=txtPass.Text
             };
             UsersEntity usuario=usersBusiness.Validar(user);
-            if (usuario != null) Session.Add("user", usuario);
+            if (usuario != null) Session.Add("user", usuario); Response.Redirect("MiPerfil.aspx");
         }
     }
 }

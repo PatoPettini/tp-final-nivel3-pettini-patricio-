@@ -76,9 +76,11 @@
   <ItemGroup>
     <Content Include="ArticulosABM.aspx" />
     <Content Include="ArticulosConForeach.aspx" />
+    <Content Include="Error.aspx" />
     <Content Include="GrillaArticulosAdmin.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="LogIn.aspx" />
+    <Content Include="MiPerfil.aspx" />
     <Content Include="Registro.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -96,6 +98,13 @@
     </Compile>
     <Compile Include="ArticulosConForeach.aspx.designer.cs">
       <DependentUpon>ArticulosConForeach.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
     <Compile Include="GrillaArticulosAdmin.aspx.cs">
       <DependentUpon>GrillaArticulosAdmin.aspx</DependentUpon>
@@ -117,6 +126,13 @@
     </Compile>
     <Compile Include="LogIn.aspx.designer.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MiPerfil.aspx.cs">
+      <DependentUpon>MiPerfil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MiPerfil.aspx.designer.cs">
+      <DependentUpon>MiPerfil.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registro.aspx.cs">

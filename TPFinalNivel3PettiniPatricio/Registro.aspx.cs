@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -29,7 +30,10 @@ namespace TPFinalNivel3PettiniPatricio
             };
             usersBusiness.AltaUser(user);
             Session.Add("user", user);
-            Response.Redirect("inicio.aspx");
+            ServicioEmail servicioEmail= new ServicioEmail();
+            servicioEmail.ArmarCorreo(user.Email, "Registro", "<h1>Hola " + user.Nombre + "!</h1> <br>Tu registro fue exitoso, te damos la bienvenida a la comunidad.");
+            servicioEmail.EnviarEmail();
+            Response.Redirect("MiPerfil.aspx");
         }
     }
 }

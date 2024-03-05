@@ -22,6 +22,10 @@ namespace Business
         }
         public void AltaUser(UsersEntity user)
         {
+            foreach(UsersEntity usuario in GetUsers())
+            {
+                if (usuario.Email == user.Email) throw new Exception("El email ya esta registrado");
+            }
             usersDAL.Alta(user);
         }
 
