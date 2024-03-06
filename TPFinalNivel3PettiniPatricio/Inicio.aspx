@@ -22,6 +22,7 @@
                                         {%>
                                     <a class="btn btn-primary" href="ArticulosABM.aspx?id=<%#Eval("Id") %>">Accion</a>
                                     <%} %>
+                                    <a href="Inicio.aspx?idArticulo=<%#Eval("Id")%>" class="btn btn-secondary">Agregar a Favoritos</a>
                                 </div>
                             </div>
                         </div>

@@ -11,16 +11,16 @@ namespace TPFinalNivel3PettiniPatricio
 {
 
 
-    public partial class ArticulosConForeach
+    public partial class Favoritos
     {
 
         /// <summary>
-        /// Control SManager.
+        /// Control ScriptManager.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager SManager;
+        protected global::System.Web.UI.ScriptManager ScriptManager;
     }
 }

@@ -27,6 +27,9 @@
                             <a class="nav-link active" aria-current="page" href="Inicio.aspx">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="ArticulosConForeach.aspx">ACF</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="ArticulosABM.aspx">Agregar Articulo</a>
                         </li>
                         <div class="d-flex">
@@ -39,6 +42,12 @@
                         <%}
                             else
                             {  %>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="MiPerfil.aspx">Mi Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="Favoritos.aspx">Favoritos</a>
+                        </li>
                         <asp:Button ID="btnCerrarSesion" OnClick="btnCerrarSesion_Click" CssClass="btn btn-danger" runat="server" Text="Cerrar Sesion" />
                         <%} %>
                     </ul>
