@@ -18,11 +18,8 @@ namespace TPFinalNivel3PettiniPatricio
         public bool IsPB { get; set; }
         public int Count { get; set; }
         public List<ArticulosEntity> listaFavoritos { get; set; }
-        static int cont;
         protected void Page_Load(object sender, EventArgs e)
         {
-            Contar();
-            Count = (int)Session["count"];
             listaFavoritos = favoritosBusiness.GetFavoritosUser((UsersEntity)Session["user"]);
             favoritos((UsersEntity)Session["user"]);
             if (Request.QueryString["idArticulo"] != null)
@@ -41,12 +38,6 @@ namespace TPFinalNivel3PettiniPatricio
             ListaArticulos = (List<ArticulosEntity>)Session["listaArticulos"];
             Validar();
         }
-
-        void Contar()
-        {
-            Session.Add("count", cont++);
-        }
-
         void Validar()
         {
             UsersEntity user= (UsersEntity)Session["user"];
