@@ -38,5 +38,15 @@ namespace Business
             }
             return null;
         }
+
+        public List<ArticulosEntity> listaFiltrada(string idCategoria, string idMarca)
+        {
+            List<ArticulosEntity> lista = new List<ArticulosEntity>();
+            foreach(ArticulosEntity articulo in GetArticulo())
+            {
+                if (articulo.idCategoria == Convert.ToInt32(idCategoria) && articulo.idMarca == Convert.ToInt32(idMarca)) lista.Add(articulo);
+            }
+            return lista;
+        }
     }
 }
