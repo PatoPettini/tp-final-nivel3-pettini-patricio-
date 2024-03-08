@@ -34,12 +34,21 @@
                     </div>
                     <div class="col-3">
                         <div class="mb-3">
+                            <asp:Label ID="Label4" runat="server" Text="Precio Minimo"></asp:Label>
+                            <asp:TextBox ID="txtPrecioDesde" runat="server"></asp:TextBox>
+                            <asp:Label ID="Label5" runat="server" Text="Precio Maximo"></asp:Label>
+                            <asp:TextBox ID="txtPrecioHasta" runat="server"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="mb-3">
                             <asp:Button ID="btnFiltrar" runat="server" CssClass="btn btn-primary" OnClick="btnFiltrar_Click" Text="Filtrar" />
                             <asp:Button ID="btnLimpiar" runat="server" CssClass="btn btn-secondary" OnClick="btnLimpiar_Click" Text="Limpiar" />
                         </div>
                     </div>
                 </div>
-                <%}%>
+                <%}
+                %>
             </div>
             <div class="row row-cols-1 row-cols-md-3 g-4">
 

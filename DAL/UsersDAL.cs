@@ -2,6 +2,8 @@
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,19 +28,20 @@ namespace Business
                 }).ToList();
             }
         }
-
         public void Alta(UsersEntity user)
         {
-            USERS usuario = new USERS();
-            usuario.nombre = user.Nombre;
-            usuario.apellido = user.Apellido;
-            usuario.email = user.Email;
-            usuario.pass = user.Pass;
-            usuario.admin = user.admin;
-            using (Context context= new Context())
+            string conexion = ConfigurationManager.ConnectionStrings["Catalogo"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(conexion))
             {
-                context.USERS.Add(usuario);
-                context.SaveChanges();
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("Insert into Users (email, pass, nombre, apellido) values (@email,@pass, @nombre, @apellido)", connection))
+                {
+                    command.Parameters.AddWithValue("@email", user.Email);
+                    command.Parameters.AddWithValue("@pass", user.Pass);
+                    command.Parameters.AddWithValue("@nombre", user.Nombre);
+                    command.Parameters.AddWithValue("@apellido", user.Apellido);
+                    command.ExecuteNonQuery();
+                }
             }
         }
 

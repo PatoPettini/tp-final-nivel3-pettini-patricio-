@@ -21,5 +21,16 @@ namespace Business
                 }).ToList();
             }
         }
+
+        public void Alta(MarcasEntity marca)
+        {
+            MARCAS mARCAS= new MARCAS();
+            mARCAS.Descripcion= marca.Descripcion;
+            using (Context context= new Context())
+            {
+                context.MARCAS.Add(mARCAS);
+                context.SaveChanges();
+            }
+        }
     }
 }

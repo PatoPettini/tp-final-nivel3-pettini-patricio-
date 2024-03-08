@@ -2,6 +2,8 @@
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,16 +24,18 @@ namespace Business
                 }).ToList();
             }
         }
-
         public void Alta(UsersEntity user, int idArticulo)
         {
-            FAVORITOS fAVORITOS= new FAVORITOS();
-            fAVORITOS.IdArticulo=idArticulo;
-            fAVORITOS.IdUser= user.Id;
-            using (Context context= new Context())
+            string conexion = ConfigurationManager.ConnectionStrings["Catalogo"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(conexion))
             {
-                context.FAVORITOS.Add(fAVORITOS);
-                context.SaveChanges();
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("Insert into Favoritos (idUser, idArticulo) values (@idUser,@idArticulo)", connection))
+                {
+                    command.Parameters.AddWithValue("@idUser", user.Id);
+                    command.Parameters.AddWithValue("@idArticulo", idArticulo);
+                    command.ExecuteNonQuery();
+                }
             }
         }
 

@@ -14,8 +14,8 @@ namespace DAL
 
         public virtual DbSet<ARTICULOS> ARTICULOS { get; set; }
         public virtual DbSet<CATEGORIAS> CATEGORIAS { get; set; }
-        public virtual DbSet<FAVORITOS> FAVORITOS { get; set; }
         public virtual DbSet<MARCAS> MARCAS { get; set; }
+        public virtual DbSet<FAVORITOS> FAVORITOS { get; set; }
         public virtual DbSet<USERS> USERS { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -44,19 +44,9 @@ namespace DAL
                 .Property(e => e.Descripcion)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<CATEGORIAS>()
-                .HasMany(e => e.ARTICULOS)
-                .WithOptional(e => e.CATEGORIAS)
-                .HasForeignKey(e => e.IdCategoria);
-
             modelBuilder.Entity<MARCAS>()
                 .Property(e => e.Descripcion)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<MARCAS>()
-                .HasMany(e => e.ARTICULOS)
-                .WithOptional(e => e.MARCAS)
-                .HasForeignKey(e => e.IdMarca);
 
             modelBuilder.Entity<USERS>()
                 .Property(e => e.email)

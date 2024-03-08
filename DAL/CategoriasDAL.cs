@@ -21,5 +21,17 @@ namespace Business
                 }).ToList();
             }
         }
+
+        public void Alta(CategoriasEntity categoria)
+        {
+            CATEGORIAS cat= new CATEGORIAS();
+            cat.Id = categoria.Id;
+            cat.Descripcion= categoria.Descripcion;
+            using (Context context= new Context())
+            {
+                context.CATEGORIAS.Add(cat);
+                context.SaveChanges();
+            }
+        }
     }
 }

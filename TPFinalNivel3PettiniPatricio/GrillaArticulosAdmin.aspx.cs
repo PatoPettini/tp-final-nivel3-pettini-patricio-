@@ -48,11 +48,11 @@ namespace TPFinalNivel3PettiniPatricio
             dgvArticulosAdmin.DataBind();
         }
 
-        protected void btnFiltrar_Click(object sender, EventArgs e)
-        {
-            dgvArticulosAdmin.DataSource=articulosBusiness.listaFiltrada(ddlCategoria.SelectedValue, ddlMarca.SelectedValue);
-            dgvArticulosAdmin.DataBind();
-        }
+        //protected void btnFiltrar_Click(object sender, EventArgs e)
+        //{
+        //    dgvArticulosAdmin.DataSource=articulosBusiness.listaFiltrada(ddlCategoria.SelectedValue, ddlMarca.SelectedValue);
+        //    dgvArticulosAdmin.DataBind();
+        //}
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {

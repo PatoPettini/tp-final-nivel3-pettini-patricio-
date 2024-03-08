@@ -40,15 +40,21 @@ namespace TPFinalNivel3PettiniPatricio
                 ddlCategoria.DataTextField = "Descripcion";
                 ddlCategoria.DataValueField = "id";
                 ddlCategoria.DataBind();
+                ddlCategoria.Items.Add("Cualquiera");
                 ddlMarca.DataSource = marcasBusiness.GetMarcas();
                 ddlMarca.DataTextField = "Descripcion";
                 ddlMarca.DataValueField = "id";
                 ddlMarca.DataBind();
+                ddlMarca.Items.Add("Cualquiera");
                 Session.Add("listaArticulos", articulosBusiness.GetArticulo());
                 Validar();
             }
             ListaArticulos = (List<ArticulosEntity>)Session["listaArticulos"];
-            if (chkFiltroAvanzado.Checked) txtArticulo.Enabled = false;
+            if (chkFiltroAvanzado.Checked)
+            {
+                txtArticulo.Enabled = false;
+                txtArticulo.Text = "";
+            }
             else txtArticulo.Enabled = true;
         }
 
@@ -80,12 +86,14 @@ namespace TPFinalNivel3PettiniPatricio
 
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
-            ListaFiltrada = articulosBusiness.listaFiltrada(ddlCategoria.SelectedValue, ddlMarca.SelectedValue);
+            ListaFiltrada = articulosBusiness.listaFiltrada(ddlCategoria.SelectedValue, ddlMarca.SelectedValue,txtPrecioDesde.Text,txtPrecioHasta.Text);
         }
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
             ListaFiltrada=null;
+            txtPrecioDesde.Text = "";
+            txtPrecioHasta.Text = "";
         }
     }
 }

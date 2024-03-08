@@ -17,6 +17,19 @@ namespace Business
         {
             return categoriasDAL.Get();
         }
-        
+
+        public void AgregarCategoria(CategoriasEntity categoria)
+        {
+            categoriasDAL.Alta(categoria);
+        }
+        public CategoriasEntity BuscarCategoria(CategoriasEntity categoria)
+        {
+            foreach (CategoriasEntity cat in GetCategorias())
+            {
+                if (categoria.Descripcion == cat.Descripcion) return cat;
+            }
+            return null;
+        }
+
     }
 }

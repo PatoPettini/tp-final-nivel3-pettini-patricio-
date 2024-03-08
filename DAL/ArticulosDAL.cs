@@ -31,9 +31,11 @@ namespace Business
                     CATEGORIAS cat= context.CATEGORIAS.FirstOrDefault(c=>c.Id== art.idCategoria);
                     art.Categoria = new CategoriasEntity();
                     art.Categoria.Descripcion= cat.Descripcion;
+                    art.Categoria.Id=cat.Id;
                     MARCAS marca = context.MARCAS.FirstOrDefault(m => m.Id == art.idMarca);
                     art.Marca=new MarcasEntity();
                     art.Marca.Descripcion=marca.Descripcion;
+                    art.Marca.Id=marca.Id;
                 }
                 return lista;
             }

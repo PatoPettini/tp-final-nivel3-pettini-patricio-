@@ -28,9 +28,5 @@ namespace DAL
 
         [Column(TypeName = "money")]
         public decimal? Precio { get; set; }
-
-        public virtual CATEGORIAS CATEGORIAS { get; set; }
-
-        public virtual MARCAS MARCAS { get; set; }
     }
 }

@@ -15,5 +15,19 @@ namespace Business
         {
             return marcasDAL.Get();
         }
+
+        public void AgregarMarca(MarcasEntity marca)
+        {
+            marcasDAL.Alta(marca);
+        }
+
+        public MarcasEntity BuscarMarca(MarcasEntity marca)
+        {
+            foreach(MarcasEntity mar in GetMarcas())
+            {
+                if (marca.Descripcion == mar.Descripcion) return mar;
+            }
+            return null;
+        }
     }
 }

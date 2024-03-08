@@ -32,29 +32,41 @@
             <div class="mb-3">
                 <label for="ddlMarca" class="form-label">Marca</label>
                 <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-control"></asp:DropDownList>
+                <%if (Business.Validaciones.EsAdmin((Entity.UsersEntity)Session["user"]))
+                    { %>
+                <asp:CheckBox ID="chkAgregarMarca" AutoPostBack="true" Text="Agregar Marca" runat="server" />
+                <asp:TextBox ID="txtMarcaNueva" CssClass="form-control" runat="server"></asp:TextBox>
+                <asp:Button ID="btnAgregarMarca" runat="server" OnClick="btnAgregarMarca_Click" CssClass="btn btn-primary" Text="Agregar" />
+                <%} %>
             </div>
             <div class="mb-3">
                 <label for="ddlCategoria" class="form-label">Categoria</label>
                 <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-control"></asp:DropDownList>
+                <%if (Business.Validaciones.EsAdmin((Entity.UsersEntity)Session["user"]))
+                    { %>
+                <asp:CheckBox ID="chkAgregarCategoria" AutoPostBack="true" Text="Agregar Categoria" runat="server" />
+                <asp:TextBox ID="txtNuevaCategoria" CssClass="form-control" runat="server"></asp:TextBox>
+                <asp:Button ID="btnAgregarCategoria" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarCategoria_Click" Text="Agregar Categoria" />
+                <%} %>
             </div>
             <div class="mb-3">
                 <label for="txtPrecio" class="form-label">Precio</label>
                 <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
         </div>
-    <asp:UpdatePanel runat="server">
-        <ContentTemplate>
-            <div class="mb-3">
-                <asp:Button ID="btnAgregar" runat="server" CssClass="btn btn-primary" OnClick="btnAgregar_Click" Text="Agregar" />
-                <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger" OnClick="btnEliminar_Click" Text="Eliminar" />
-                <%if (ConfirmarEliminacion)
-                    {  %>
-                <asp:CheckBox ID="chkConfimar" Text="Confirmar Eliminacion" runat="server" />
-                <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-danger" OnClick="btnConfirmar_Click" Text="Eliminar" />
-                <%} %>
-            </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
+        <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+                <div class="mb-3">
+                    <asp:Button ID="btnAgregar" runat="server" CssClass="btn btn-primary" OnClick="btnAgregar_Click" Text="Agregar" />
+                    <asp:Button ID="btnEliminar" runat="server" CssClass="btn btn-danger" OnClick="btnEliminar_Click" Text="Eliminar" />
+                    <%if (ConfirmarEliminacion)
+                        {  %>
+                    <asp:CheckBox ID="chkConfimar" Text="Confirmar Eliminacion" runat="server" />
+                    <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-danger" OnClick="btnConfirmar_Click" Text="Eliminar" />
+                    <%} %>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
 
     </div>
 </asp:Content>
