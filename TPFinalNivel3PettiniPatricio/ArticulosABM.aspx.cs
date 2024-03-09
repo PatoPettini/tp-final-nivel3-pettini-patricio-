@@ -30,9 +30,10 @@ namespace TPFinalNivel3PettiniPatricio
                     txtDescripcion.Text = articulo.Descripcion.ToString();
                     ddlCategoria.SelectedValue = articulo.Categoria.Id.ToString();
                     ddlMarca.SelectedValue = articulo.Marca.Id.ToString();
-                    txtImagen.Text = articulo.ImagenUrl;
                     txtPrecio.Text = articulo.Precio.ToString();
-                    imagenID.ImageUrl = txtImagen.Text;
+                    if (string.IsNullOrEmpty(articulo.ImagenUrl)) imagenID.ImageUrl = "https://acortar.link/fHURIm";
+                    else if(articulo.ImagenUrl == "articulo-" + articulo.Codigo + articulo.Nombre + articulo.Descripcion + articulo.idMarca + articulo.idCategoria + Convert.ToInt32(articulo.Precio) + ".jpg") imagenID.ImageUrl = "~/Images/" + articulo.ImagenUrl;
+                    else imagenID.ImageUrl=articulo.ImagenUrl;
                 }
                 UsersEntity user = (UsersEntity)Session["user"];
                 if (!Validaciones.EsAdmin(user))
@@ -90,23 +91,49 @@ namespace TPFinalNivel3PettiniPatricio
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            ArticulosEntity articulo = new ArticulosEntity
+            try
             {
-                Codigo = txtCodigo.Text,
-                Nombre = txtNombre.Text,
-                Descripcion = txtDescripcion.Text,
-                idMarca = Convert.ToInt32(ddlMarca.SelectedValue),
-                idCategoria = Convert.ToInt32(ddlCategoria.SelectedValue),
-                ImagenUrl = txtImagen.Text,
-                Precio = Convert.ToDecimal(txtPrecio.Text)
-            };
-            if (Request.QueryString["id"] != null)
-            {
-                articulo.Id = Convert.ToInt32(Request.QueryString["id"]);
-                articulosBusiness.ActualizarArticulo(articulo);
+                ArticulosEntity articulo = new ArticulosEntity
+                {
+                    Codigo = txtCodigo.Text,
+                    Nombre = txtNombre.Text,
+                    Descripcion = txtDescripcion.Text,
+                    idMarca = Convert.ToInt32(ddlMarca.SelectedValue),
+                    idCategoria = Convert.ToInt32(ddlCategoria.SelectedValue),
+                    Precio = Convert.ToDecimal(txtPrecio.Text)
+                };
+                if (Request.QueryString["id"] != null)
+                {
+                    articulo.Id = Convert.ToInt32(Request.QueryString["id"]);
+                    ValidarMetodoDeImagen(articulo);
+                    articulosBusiness.ActualizarArticulo(articulo);
+                }
+                else
+                {
+                    ValidarMetodoDeImagen(articulo);
+                    articulosBusiness.AltaArticulo(articulo);
+                };
+                Response.Redirect("Inicio.aspx",false);
             }
-            else articulosBusiness.AltaArticulo(articulo);
-            Response.Redirect("Inicio.aspx");
+            catch (Exception)
+            {
+                Response.Redirect("error.aspx");
+            }
+        }
+
+        private void ValidarMetodoDeImagen(ArticulosEntity articulo)
+        {
+            if (!chkAgregarImagen.Checked) articulo.ImagenUrl = txtImagen.Text;
+            else
+            {
+                if (ImagenArticulo.PostedFile.FileName != "")
+                {
+                    string ruta = Server.MapPath("./Images/");
+                    var foto = "articulo-" + articulo.Codigo + articulo.Nombre+ articulo.Descripcion+articulo.idMarca+articulo.idCategoria+Convert.ToInt32(articulo.Precio)+ ".jpg";
+                    ImagenArticulo.PostedFile.SaveAs(ruta + foto);
+                    articulo.ImagenUrl = foto;
+                }
+            }
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
@@ -139,7 +166,7 @@ namespace TPFinalNivel3PettiniPatricio
                 chkAgregarMarca.Checked = false;
                 var dropSeleccionado = ddlCategoria.SelectedValue;
                 SetearDropDownList();
-                MarcasEntity mar= marcasBusiness.BuscarMarca(marca);
+                MarcasEntity mar = marcasBusiness.BuscarMarca(marca);
                 ddlMarca.SelectedValue = mar.Id.ToString();
                 chkAgregarMarca.Checked = false;
                 ddlMarca.Enabled = true;
@@ -158,7 +185,7 @@ namespace TPFinalNivel3PettiniPatricio
                 categoriasBusiness.AgregarCategoria(categoria);
                 txtNuevaCategoria.Text = "";
                 chkAgregarCategoria.Checked = false;
-                var dropSeleccionado=ddlMarca.SelectedValue;
+                var dropSeleccionado = ddlMarca.SelectedValue;
                 SetearDropDownList();
                 CategoriasEntity cat = categoriasBusiness.BuscarCategoria(categoria);
                 ddlCategoria.SelectedValue = cat.Id.ToString();
@@ -166,7 +193,19 @@ namespace TPFinalNivel3PettiniPatricio
                 ddlCategoria.Enabled = true;
                 txtNuevaCategoria.Visible = false;
                 btnAgregarCategoria.Visible = false;
-                ddlMarca.SelectedValue= dropSeleccionado;
+                ddlMarca.SelectedValue = dropSeleccionado;
+            }
+        }
+
+        protected void chkAgregarImagen_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkAgregarImagen.Checked)
+            {
+                txtImagen.Enabled = false; ImagenArticulo.Visible = true;
+            }
+            else
+            {
+                txtImagen.Enabled = true; ImagenArticulo.Visible = false;
             }
         }
     }

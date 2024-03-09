@@ -75,11 +75,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ArticulosABM.aspx" />
-    <Content Include="ArticulosConForeach.aspx" />
+    <Content Include="Inicio.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Favoritos.aspx" />
     <Content Include="GrillaArticulosAdmin.aspx" />
-    <Content Include="Inicio.aspx" />
+    <Content Include="Inicio2.aspx" />
     <Content Include="LogIn.aspx" />
     <Content Include="MiPerfil.aspx" />
     <Content Include="Registro.aspx" />
@@ -93,12 +93,12 @@
     <Compile Include="ArticulosABM.aspx.designer.cs">
       <DependentUpon>ArticulosABM.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ArticulosConForeach.aspx.cs">
-      <DependentUpon>ArticulosConForeach.aspx</DependentUpon>
+    <Compile Include="Inicio.aspx.cs">
+      <DependentUpon>Inicio.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ArticulosConForeach.aspx.designer.cs">
-      <DependentUpon>ArticulosConForeach.aspx</DependentUpon>
+    <Compile Include="Inicio.aspx.designer.cs">
+      <DependentUpon>Inicio.aspx</DependentUpon>
     </Compile>
     <Compile Include="Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
@@ -121,12 +121,12 @@
     <Compile Include="GrillaArticulosAdmin.aspx.designer.cs">
       <DependentUpon>GrillaArticulosAdmin.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Inicio.aspx.cs">
-      <DependentUpon>Inicio.aspx</DependentUpon>
+    <Compile Include="Inicio2.aspx.cs">
+      <DependentUpon>Inicio2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Inicio.aspx.designer.cs">
-      <DependentUpon>Inicio.aspx</DependentUpon>
+    <Compile Include="Inicio2.aspx.designer.cs">
+      <DependentUpon>Inicio2.aspx</DependentUpon>
     </Compile>
     <Compile Include="LogIn.aspx.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>

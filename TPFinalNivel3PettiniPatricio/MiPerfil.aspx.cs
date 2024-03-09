@@ -30,7 +30,8 @@ namespace TPFinalNivel3PettiniPatricio
                     txtAdmin.Text = user.admin.ToString();
                     txtAdmin.Enabled = false;
                     if (user.urlImagenPerfil == null) ImagenID.ImageUrl = "https://thumbs.dreamstime.com/b/perfil-de-usuario-vectorial-avatar-predeterminado-179376714.jpg";
-                    else ImagenID.ImageUrl = "~/Images/" + user.urlImagenPerfil;
+                    else if (user.urlImagenPerfil == "user-" + user.Id + ".jpg") ImagenID.ImageUrl = "~/Images/" + user.urlImagenPerfil;
+                    else ImagenID.ImageUrl = user.urlImagenPerfil;
                 }
                 else
                 {
@@ -38,24 +39,46 @@ namespace TPFinalNivel3PettiniPatricio
                     Response.Redirect("error.aspx");
                 }
             }
+
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             UsersEntity user = (UsersEntity)Session["user"];
 
-            if (txtImagen.PostedFile.FileName != "")
-            {
-                string ruta = Server.MapPath("./Images/");
-                var foto = "perfil-" + user.Id + ".jpg";
-                txtImagen.PostedFile.SaveAs(ruta + foto);
-                user.urlImagenPerfil = foto;
-            }
-
+            ValidarMetodoDeImagen(user);
             user.Nombre = txtNombre.Text;
             user.Apellido = txtApellido.Text;
             usersBusiness.Actualizar(user);
             Session.Add("user", user);
+            Response.Redirect("MiPerfil.aspx",false);
+        }
+
+        private void ValidarMetodoDeImagen(UsersEntity user)
+        {
+            if (!chkAgregarImagen.Checked) user.urlImagenPerfil = txtImagenTexto.Text;
+            else
+            {
+                if (txtImagen.PostedFile.FileName != "")
+                {
+                    string ruta = Server.MapPath("./Images/");
+                    var foto = "user-" + user.Id + ".jpg";
+                    txtImagen.PostedFile.SaveAs(ruta + foto);
+                    user.urlImagenPerfil = foto;
+                }
+            }
+        }
+
+        protected void chkAgregarImagen_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkAgregarImagen.Checked)
+            {
+                txtImagenTexto.Enabled = false; txtImagen.Visible = true; txtImagenTexto.Text = "";
+            }
+            else
+            {
+                txtImagenTexto.Enabled = true; txtImagen.Visible = false;
+            }
         }
     }
 }

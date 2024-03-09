@@ -33,6 +33,24 @@ namespace TPFinalNivel3PettiniPatricio
         protected global::System.Web.UI.WebControls.TextBox txtImagen;
 
         /// <summary>
+        /// Control chkAgregarImagen.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkAgregarImagen;
+
+        /// <summary>
+        /// Control ImagenArticulo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputFile ImagenArticulo;
+
+        /// <summary>
         /// Control imagenID.
         /// </summary>
         /// <remarks>
