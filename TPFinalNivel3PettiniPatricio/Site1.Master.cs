@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,27 @@ namespace TPFinalNivel3PettiniPatricio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            UsersEntity user = (UsersEntity)Session["user"];
+            ImagePerfil.ImageUrl = "https://acortar.link/otAY0i";
 
+            if (user == null)
+            {
+                if (!(Page is LogIn || Page is Registro || Page is Error)) Response.Redirect("Login.aspx");
+            }
+            else
+            {
+                ImagePerfil.ImageUrl = "https://acortar.link/otAY0i";
+                lblUser.Text = user.Nombre;
+                if (!string.IsNullOrEmpty(user.urlImagenPerfil))
+                {
+                    ImagePerfil.ImageUrl = "~/Images/" + user.urlImagenPerfil;
+                }
+                if (Page is Registro || Page is LogIn)
+                {
+                    Session.Add("error", "Debe salir para loguearse o registrar una cuenta");
+                    Response.Redirect("Error.aspx");
+                }
+            }
         }
         protected void btnCerrarSesion_Click(object sender, EventArgs e)
         {

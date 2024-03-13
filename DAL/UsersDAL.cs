@@ -47,15 +47,35 @@ namespace Business
 
         public void Modificar(UsersEntity user)
         {
-            using (Context context= new Context())
+            string conexion = ConfigurationManager.ConnectionStrings["Catalogo"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(conexion))
             {
-                USERS usuario = context.USERS.FirstOrDefault(u => u.Id == user.Id);
-                usuario.nombre = user.Nombre;
-                usuario.apellido = user.Apellido;
-                usuario.admin = user.admin;
-                usuario.urlImagenPerfil = user.urlImagenPerfil;
-                context.SaveChanges();
+                connection.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("Update users set urlImagenPerfil = @imagen, Nombre = @nombre, Apellido = @apellido Where Id = @id", connection))
+                    {
+                        if (!string.IsNullOrEmpty(user.urlImagenPerfil)) command.Parameters.AddWithValue("@imagen", user.urlImagenPerfil);
+                        else command.Parameters.AddWithValue("@imagen", (object)DBNull.Value);
+                        //command.Parameters.AddWithValue("@imagen", !string.IsNullOrEmpty(user.urlImagenPerfil) ? user.urlImagenPerfil : (object)DBNull.Value);
+                        //command.Parameters.AddWithValue("@imagen", (object)user.imagenPerfil ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@nombre", user.Nombre);
+                        command.Parameters.AddWithValue("@apellido", user.Apellido);
+                        command.Parameters.AddWithValue("@id", user.Id);
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
+
         }
     }
 }

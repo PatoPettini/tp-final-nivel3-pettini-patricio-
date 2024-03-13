@@ -13,30 +13,54 @@ namespace TPFinalNivel3PettiniPatricio
     {
         public bool EsAdmin { get; set; }
         ArticulosBusiness articulosBusiness = new ArticulosBusiness();
-        FavoritosBusiness favoritosBusiness= new FavoritosBusiness();
+        FavoritosBusiness favoritosBusiness = new FavoritosBusiness();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.QueryString["idArticulo"] != null)
+            try
             {
-                int idArticulo = Convert.ToInt32(Request.QueryString["idArticulo"]);
-                AgregarFavorito(idArticulo);
+                if (Request.QueryString["idArticulo"] != null)
+                {
+                    int idArticulo = Convert.ToInt32(Request.QueryString["idArticulo"]);
+                    AgregarFavorito(idArticulo);
 
+                }
+                Session.Add("listaArticulos", articulosBusiness.GetArticulo());
+                repRepetidor.DataSource = Session["listaArticulos"];
+                repRepetidor.DataBind();
+                Validar();
             }
-            Session.Add("listaArticulos", articulosBusiness.GetArticulo());
-            repRepetidor.DataSource = Session["listaArticulos"];
-            repRepetidor.DataBind();
-            Validar();
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.Message);
+                Response.Redirect("error.aspx");
+            }
         }
         void Validar()
         {
-            UsersEntity user = (UsersEntity)Session["user"];
-            EsAdmin = Validaciones.EsAdmin(user);
+            try
+            {
+                UsersEntity user = (UsersEntity)Session["user"];
+                EsAdmin = Validaciones.EsAdmin(user);
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.Message);
+                Response.Redirect("error.aspx");
+            }
         }
 
         void AgregarFavorito(int idArticulo)
         {
+            try
+            {
             UsersEntity user = (UsersEntity)Session["user"];
-            favoritosBusiness.AltaFavorito(user,idArticulo);
+            favoritosBusiness.AltaFavorito(user, idArticulo);
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.Message);
+                Response.Redirect("error.aspx");
+            }
         }
     }
 }

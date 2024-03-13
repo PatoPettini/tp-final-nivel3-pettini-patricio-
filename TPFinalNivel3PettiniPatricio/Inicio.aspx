@@ -60,7 +60,14 @@
 
                 <div class="col">
                     <div class="card">
+                        <% if (articulo.ImagenUrl == "articulo-" + articulo.Codigo + articulo.Nombre + articulo.Descripcion + articulo.idMarca + articulo.idCategoria + Convert.ToInt32(articulo.Precio) + ".jpg")
+                            {%>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmirI4PxLNSAAUf4tBZCiZjUtwrpt9oVu6NIshLIdqjNK9wWcjXgtWRr81WMbgJ7HuVlc&usqp=CAU" class="card-img-top" alt="...">
+                        <%}
+                            else
+                            { %>
                         <img src="<%:articulo.ImagenUrl%>" class="card-img-top" alt="...">
+                        <%} %>
                         <div class="card-body">
                             <h5 class="card-title"><%: articulo.Nombre %></h5>
                             <p class="card-text"><%: articulo.Marca.Descripcion %></p>
@@ -73,23 +80,31 @@
                                 {%>
                             <a class="btn btn-primary" href="ArticulosABM.aspx?id=<%:articulo.Id%>">Accion</a>
                             <%}%>
-                            <a href="ArticulosConForeach.aspx?idArticulo=<%:articulo.Id%>" class="btn btn-secondary">Agregar a Favoritos</a>
+                            <% if (ValidarFavoritos(articulo) == true)
+                                {
+                            %>
+                            <a href="Inicio.aspx?idArticulo=<%:articulo.Id%>" class="btn btn-primary">Agregar a Favoritos</a>
+                            <%}
+                                else
+                                {%>
+                            <a href="Inicio.aspx?idEliminarArticulo=<%:articulo.Id%>" class="btn btn-danger">Eliminar de Favoritos</a>
+                            <%} %>
                             <%-- lo que queria hacer aca es que si el articulo ya esta en favoritos que aparezca para eliminar de favoritos, en lugar de agregar otra vez --%>
                             <%--<%if (listaFavoritos.Count == 0)
                                 {%>
-                            <a href="ArticulosConForeach.aspx?idArticulo=<%:articulo.Id%>" class="btn btn-secondary">Agregar a Favoritos</a>
+                            <a href="Inicio.aspx?idArticulo=<%:articulo.Id%>" class="btn btn-secondary">Agregar a Favoritos</a>
                             <%}%>
                             <%foreach (Entity.ArticulosEntity art in listaFavoritos)
                                 {
                                     if (art.Id != articulo.Id)
                                     {
                             %>
-                            <a href="ArticulosConForeach.aspx?idArticulo=<%:articulo.Id%>" class="btn btn-secondary">Agregar a Favoritos</a>
+                            <a href="Inicio.aspx?idArticulo=<%:articulo.Id%>" class="btn btn-secondary">Agregar a Favoritos</a>
                             <%}
                                 else
                                 {
                             %>
-                            <a href="ArticulosConForeach.aspx?idEliminarArticulo=<%:articulo.Id%>" class="btn btn-danger">Eliminar Favorito</a>
+                            <a href="Inicio.aspx?idEliminarArticulo=<%:articulo.Id%>" class="btn btn-danger">Eliminar Favorito</a>
                             <%}
                                 }
                             %>--%>
@@ -118,7 +133,15 @@
                                 {%>
                             <a class="btn btn-primary" href="ArticulosABM.aspx?id=<%:articulo.Id%>">Accion</a>
                             <%}%>
-                            <a href="ArticulosConForeach.aspx?idArticulo=<%:articulo.Id%>" class="btn btn-secondary">Agregar a Favoritos</a>
+                            <% if (ValidarFavoritos(articulo) == true)
+                                {
+                            %>
+                            <a href="Inicio.aspx?idArticulo=<%:articulo.Id%>" class="btn btn-primary">Agregar a Favoritos</a>
+                            <%}
+                                else
+                                {%>
+                            <a href="Inicio.aspx?idEliminarArticulo=<%:articulo.Id%>" class="btn btn-danger">Eliminar de Favoritos</a>
+                            <%} %>
                         </div>
                     </div>
                 </div>

@@ -11,10 +11,13 @@
             <div class="mb-3">
                 <label for="txtImagen" class="form-label">Imagen</label>
                 <asp:TextBox ID="txtImagen" OnTextChanged="txtImagen_TextChanged" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
+                <%if (Business.Validaciones.EsAdmin((Entity.UsersEntity)Session["user"]))
+                    { %>
                 <asp:CheckBox ID="chkAgregarImagen" OnCheckedChanged="chkAgregarImagen_CheckedChanged" AutoPostBack="true" Text="Agregar Imagen desde mi PC" runat="server" />
                 <%if (chkAgregarImagen.Checked)
                     {%>
                 <input type="file" id="ImagenArticulo" class="form-control" runat="server" />
+                <%} %>
                 <%} %>
             </div>
             <div class="mb-3">
@@ -57,6 +60,8 @@
             <div class="mb-3">
                 <label for="txtPrecio" class="form-label">Precio</label>
                 <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control"></asp:TextBox>
+                <asp:RegularExpressionValidator ErrorMessage="Solo numeros!" ValidationExpression="^[0-9]+$"
+                    ControlToValidate="txtPrecio" runat="server" />
             </div>
         </div>
 
@@ -71,7 +76,7 @@
                     <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-danger" OnClick="btnConfirmar_Click" Text="Eliminar" />
                     <%} %>
         </div>
-            </ContentTemplate>
-        </asp:UpdatePanel>
-    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
 </asp:Content>

@@ -50,8 +50,10 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="Favoritos.aspx">Favoritos</a>
                         </li>
-                        <asp:Button ID="btnCerrarSesion" OnClick="btnCerrarSesion_Click" CssClass="btn btn-danger" runat="server" Text="Cerrar Sesion" />
-                        <%} %>
+                        <asp:Label ID="lblUser" Text="user" CssClass="text-light m-auto me-2" BackColor="Black" runat="server" />
+                            <asp:Button ID="btnCerrarSesion" OnClick="btnCerrarSesion_Click" CssClass="btn btn-danger" runat="server" Text="Cerrar Sesion" />
+                            <asp:Image ID="ImagePerfil" runat="server" Style="height: 40px; width: 40px; border-radius: 50%;" />
+                            <%} %>
                     </ul>
                 </div>
             </div>

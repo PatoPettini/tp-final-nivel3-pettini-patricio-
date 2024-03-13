@@ -35,7 +35,7 @@ namespace Business
             {
                 if(usuario.Email==user.Email && usuario.Pass==user.Pass) return usuario;
             }
-            return null;
+            throw new Exception("el email o la contraseña son incorrectos");
         }
     }
 }

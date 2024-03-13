@@ -19,6 +19,7 @@ namespace TPFinalNivel3PettiniPatricio
         {
             try
             {
+                if (Session["user"] == null) Response.Redirect("error.aspx");
                 if (Request.QueryString["idArticulo"] != null)
                 {
                     int idArticulo = Convert.ToInt32(Request.QueryString["idArticulo"]);
@@ -28,24 +29,42 @@ namespace TPFinalNivel3PettiniPatricio
                 UsersEntity user = (UsersEntity)Session["user"];
                 listaArticulosFavoritos = favoritosBusiness.GetFavoritosUser(user);
             }
-            catch (Exception)
+            catch (System.Threading.ThreadAbortException) { }
+            catch (Exception ex)
             {
-                Session.Add("error", "ocurrio un error!");
+                Session.Add("error", ex.Message);
                 Response.Redirect("Error.aspx");
             }
         }
 
         void Validar()
         {
-            EsAdmin = Validaciones.EsAdmin((UsersEntity)Session["user"]);
+            try
+            {
+                EsAdmin = Validaciones.EsAdmin((UsersEntity)Session["user"]);
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.Message);
+                Response.Redirect("error.aspx");
+            }
         }
 
         public void EliminarFavorito(int idArticulo)
         {
-            UsersEntity user = (UsersEntity)Session["user"];
-            favoritosBusiness.EliminarFavorito(user,idArticulo);
+            try
+            {
+                UsersEntity user = (UsersEntity)Session["user"];
+                favoritosBusiness.EliminarFavorito(user, idArticulo);
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.Message);
+                Response.Redirect("error.aspx");
+            }
+
         }
 
-        
+
     }
 }

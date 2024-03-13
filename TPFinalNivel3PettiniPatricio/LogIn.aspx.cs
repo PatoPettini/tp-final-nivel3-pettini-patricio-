@@ -14,18 +14,40 @@ namespace TPFinalNivel3PettiniPatricio
         UsersBusiness usersBusiness = new UsersBusiness();
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            UsersEntity user = (UsersEntity)Session["user"];
+            if (user != null)
+            {
+                txtEmail.Text = user.Email;
+                txtPass.Text = user.Pass;
+            }
         }
 
         protected void btnLogIn_Click(object sender, EventArgs e)
         {
-            UsersEntity user = new UsersEntity()
+            try
             {
-                Email=txtEmail.Text,
-                Pass=txtPass.Text
-            };
-            UsersEntity usuario=usersBusiness.Validar(user);
-            if (usuario != null) Session.Add("user", usuario); Response.Redirect("MiPerfil.aspx");
+                Page.Validate();
+                if (!Page.IsValid) return;
+
+                UsersEntity user = new UsersEntity()
+                {
+                    Email = txtEmail.Text,
+                    Pass = txtPass.Text
+                };
+                if (user.Email == "" || user.Pass == "")
+                {
+                    Session.Add("error", "Debes completar ambos campos");
+                    Response.Redirect("error.aspx");
+                }
+                UsersEntity usuario = usersBusiness.Validar(user);
+                if (usuario != null) Session.Add("user", usuario); Response.Redirect("MiPerfil.aspx");
+            }
+            catch (System.Threading.ThreadAbortException) { }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.Message);
+                Response.Redirect("error.aspx");
+            }
         }
     }
 }
