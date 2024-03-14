@@ -77,7 +77,6 @@
     <Content Include="Error.aspx" />
     <Content Include="Favoritos.aspx" />
     <Content Include="GrillaArticulosAdmin.aspx" />
-    <Content Include="Inicio2.aspx" />
     <Content Include="LogIn.aspx" />
     <Content Include="MiPerfil.aspx" />
     <Content Include="Registro.aspx" />
@@ -121,13 +120,6 @@
     </Compile>
     <Compile Include="GrillaArticulosAdmin.aspx.designer.cs">
       <DependentUpon>GrillaArticulosAdmin.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Inicio2.aspx.cs">
-      <DependentUpon>Inicio2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Inicio2.aspx.designer.cs">
-      <DependentUpon>Inicio2.aspx</DependentUpon>
     </Compile>
     <Compile Include="LogIn.aspx.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>

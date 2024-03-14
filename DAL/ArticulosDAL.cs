@@ -2,6 +2,8 @@
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,20 +60,39 @@ namespace Business
             }
         }
 
-        public void Modificar(ArticulosEntity art)
+        public void Modificar(ArticulosEntity articulo)
         {
-            using (Context context = new Context())
+            string conexion = ConfigurationManager.ConnectionStrings["Catalogo"].ConnectionString;
+            using (SqlConnection connection = new SqlConnection(conexion))
             {
-                ARTICULOS articulos = context.ARTICULOS.FirstOrDefault(u => u.Id == art.Id);
-                articulos.Codigo = art.Codigo;
-                articulos.Descripcion = art.Descripcion;
-                articulos.Nombre = art.Nombre;
-                articulos.IdMarca = art.idMarca;
-                articulos.IdCategoria = art.idCategoria;
-                articulos.ImagenUrl = art.ImagenUrl;
-                articulos.Precio = art.Precio;
-                context.SaveChanges();
+                connection.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("Update Articulos set Codigo = @Codigo, Nombre = @Nombre,Descripcion=@Descripcion,idMarca=@idMarca, idCategoria=@idCategoria, ImagenUrl=@ImagenUrl, Precio=@Precio where Id=@Id", connection))
+                    {
+                        command.Parameters.AddWithValue("@Codigo", articulo.Codigo);
+                        command.Parameters.AddWithValue("@Nombre", articulo.Nombre);
+                        command.Parameters.AddWithValue("@Descripcion", articulo.Descripcion);
+                        command.Parameters.AddWithValue("@idMarca", articulo.idMarca);
+                        command.Parameters.AddWithValue("@idCategoria", articulo.idCategoria);
+                        if (!string.IsNullOrEmpty(articulo.ImagenUrl)) command.Parameters.AddWithValue("@ImagenUrl", articulo.ImagenUrl);
+                        else command.Parameters.AddWithValue("@ImagenUrl", (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@Precio", articulo.Precio);
+                        command.Parameters.AddWithValue("@Id", articulo.Id);
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
+
         }
 
         public void Eliminar(ArticulosEntity art)

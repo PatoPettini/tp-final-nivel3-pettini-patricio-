@@ -16,7 +16,15 @@
 
                 <div class="col">
                     <div class="card">
-                        <img src="<%:articuloFav.ImagenUrl  %>" class="card-img-top" alt="...">
+                        <% if (articuloFav.ImagenUrl == "articulo-" + articuloFav.Codigo + ".jpg" || string.IsNullOrEmpty
+                                (articuloFav.ImagenUrl))
+                            {%>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmirI4PxLNSAAUf4tBZCiZjUtwrpt9oVu6NIshLIdqjNK9wWcjXgtWRr81WMbgJ7HuVlc&usqp=CAU" class="card-img-top" alt="...">
+                        <%}
+                            else
+                            { %>
+                        <img src="<%:articuloFav.ImagenUrl%>" class="card-img-top" alt="...">
+                        <%} %>
                         <div class="card-body">
                             <h5 class="card-title"><%: articuloFav.Nombre %></h5>
                             <p class="card-text"><%: articuloFav.Marca.Descripcion %></p>
@@ -35,7 +43,9 @@
                 </div>
                 <%} %>
             </div>
-            <a href="ArticulosABM.aspx" class="btn btn-primary">Agregar Favoritos</a>
+            <div>
+                <a href="ArticulosABM.aspx" class="btn btn-primary">Agregar Favoritos</a>
+            </div>
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

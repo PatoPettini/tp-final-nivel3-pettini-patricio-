@@ -19,24 +19,6 @@ namespace TPFinalNivel3PettiniPatricio
         {
             try
             {
-                ArticulosEntity articulo1 = (ArticulosEntity)Session["articulo"];
-                if (articulo1 != null)
-                {
-                    txtCodigo.Text = articulo1.Codigo;
-                    txtDescripcion.Text = articulo1.Descripcion;
-                    txtNombre.Text = articulo1.Nombre;
-                    txtPrecio.Text = articulo1.Precio.ToString();
-                    ddlCategoria.SelectedValue = articulo1.idCategoria.ToString();
-                    ddlMarca.SelectedValue = articulo1.idMarca.ToString();
-                    if (string.IsNullOrEmpty(articulo1.ImagenUrl)) imagenID.ImageUrl = "https://acortar.link/fHURIm";
-                    else if (articulo1.ImagenUrl == "articulo-" + articulo1.Codigo + articulo1.Nombre + articulo1.Descripcion + articulo1.idMarca + articulo1.idCategoria + Convert.ToInt32(articulo1.Precio) + ".jpg") imagenID.ImageUrl = "~/Images/" + articulo1.ImagenUrl;
-                    else
-                    {
-                        txtImagen.Text= articulo1.ImagenUrl;
-                        imagenID.ImageUrl = articulo1.ImagenUrl;
-                    }
-                }
-
                 if (!IsPostBack)
                 {
                     SetearDropDownList();
@@ -46,22 +28,27 @@ namespace TPFinalNivel3PettiniPatricio
                         int id = Convert.ToInt32(Request.QueryString["id"]);
                         ArticulosEntity articulo = articulosBusiness.GetUnArticulo(id);
                         txtCodigo.Text = articulo.Codigo;
+                        txtCodigo.Enabled = false;
                         txtNombre.Text = articulo.Nombre;
                         txtDescripcion.Text = articulo.Descripcion.ToString();
                         ddlCategoria.SelectedValue = articulo.Categoria.Id.ToString();
                         ddlMarca.SelectedValue = articulo.Marca.Id.ToString();
                         txtPrecio.Text = articulo.Precio.ToString();
                         if (string.IsNullOrEmpty(articulo.ImagenUrl)) imagenID.ImageUrl = "https://acortar.link/fHURIm";
-                        else if (articulo.ImagenUrl == "articulo-" + articulo.Codigo + articulo.Nombre + articulo.Descripcion + articulo.idMarca + articulo.idCategoria + Convert.ToInt32(articulo.Precio) + ".jpg") imagenID.ImageUrl = "~/Images/" + articulo.ImagenUrl;
-                        else imagenID.ImageUrl = articulo.ImagenUrl;
+                        else if (articulo.ImagenUrl == "articulo-" + articulo.Codigo + ".jpg") imagenID.ImageUrl = "~/Images/" + articulo.ImagenUrl;
+                        else
+                        {
+                            txtImagen.Text = articulo.ImagenUrl;
+                            imagenID.ImageUrl = articulo.ImagenUrl;
+                        }
                     }
                     UsersEntity user = (UsersEntity)Session["user"];
                     if (!Validaciones.EsAdmin(user))
                     {
                         NoEnableTextBox();
                     }
-                    ValidarCheckbox();
                 }
+                ValidarCheckbox();
             }
             catch (Exception ex)
             {
@@ -136,24 +123,25 @@ namespace TPFinalNivel3PettiniPatricio
                     idCategoria = Convert.ToInt32(ddlCategoria.SelectedValue),
                     Precio = Convert.ToDecimal(txtPrecio.Text)
                 };
-                if (articulo.Codigo == "" || articulo.Nombre == "" || articulo.Descripcion == "" || articulo.Precio == 0)
-                {
-                    Session.Add("articulo", articulo);
-                    Session.Add("error", "Debes completar todos los campos");
-                    Response.Redirect("error.aspx");
-                }
                 if (Request.QueryString["id"] != null)
                 {
                     articulo.Id = Convert.ToInt32(Request.QueryString["id"]);
-                    ValidarMetodoDeImagen(articulo);
+                    if (!string.IsNullOrEmpty(ValidarMetodoDeImagen(articulo))) articulo.ImagenUrl = ValidarMetodoDeImagen(articulo);
+                    else articulo.ImagenUrl = articulosBusiness.BuscarImagenArticulo(articulo);
                     articulosBusiness.ActualizarArticulo(articulo);
+                    Response.Redirect("ArticulosABM.aspx?id=" + articulo.Id, false);
                 }
                 else
                 {
-                    ValidarMetodoDeImagen(articulo);
+                    if (articulo.Codigo == "" || articulo.Nombre == "" || articulo.Descripcion == "" || articulo.Precio == 0)
+                    {
+                        Session.Add("error", "Debes completar todos los campos");
+                        Response.Redirect("error.aspx");
+                    }
+                    if (!string.IsNullOrEmpty(ValidarMetodoDeImagen(articulo))) articulo.ImagenUrl = ValidarMetodoDeImagen(articulo);
                     articulosBusiness.AltaArticulo(articulo);
-                };
-                Response.Redirect("Inicio.aspx", false);
+                    Response.Redirect("Inicio.aspx", false);
+                }
             }
             catch (System.Threading.ThreadAbortException) { }
             catch (Exception ex)
@@ -163,27 +151,20 @@ namespace TPFinalNivel3PettiniPatricio
             }
         }
 
-        private void ValidarMetodoDeImagen(ArticulosEntity articulo)
+        private string ValidarMetodoDeImagen(ArticulosEntity articulo)
         {
-            try
+            if (!chkAgregarImagen.Checked) return txtImagen.Text;
+            else
             {
-                if (!chkAgregarImagen.Checked) articulo.ImagenUrl = txtImagen.Text;
-                else
+                if (ImagenArticulo.PostedFile.FileName != "")
                 {
-                    if (ImagenArticulo.PostedFile.FileName != "")
-                    {
-                        string ruta = Server.MapPath("./Images/");
-                        var foto = "articulo-" + articulo.Codigo + articulo.Nombre + articulo.Descripcion + articulo.idMarca + articulo.idCategoria + Convert.ToInt32(articulo.Precio) + ".jpg";
-                        ImagenArticulo.PostedFile.SaveAs(ruta + foto);
-                        articulo.ImagenUrl = foto;
-                    }
+                    string ruta = Server.MapPath("./Images/");
+                    var foto = "articulo-" + articulo.Codigo + ".jpg";
+                    ImagenArticulo.PostedFile.SaveAs(ruta + foto);
+                    return foto;
                 }
             }
-            catch (Exception ex)
-            {
-                Session.Add("error", ex.Message);
-                Response.Redirect("error.aspx");
-            }
+            return null;
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
@@ -199,7 +180,7 @@ namespace TPFinalNivel3PettiniPatricio
                 ArticulosEntity articulo = new ArticulosEntity();
                 articulo.Id = Convert.ToInt32(id);
                 articulosBusiness.EliminarArticulo(articulo);
-                Response.Redirect("Inicio.aspx",false);
+                Response.Redirect("Inicio.aspx", false);
             }
             catch (Exception ex)
             {

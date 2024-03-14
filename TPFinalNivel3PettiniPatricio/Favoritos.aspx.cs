@@ -19,17 +19,18 @@ namespace TPFinalNivel3PettiniPatricio
         {
             try
             {
-                if (Session["user"] == null) Response.Redirect("error.aspx");
-                if (Request.QueryString["idArticulo"] != null)
+                if (Session["user"] != null)
                 {
-                    int idArticulo = Convert.ToInt32(Request.QueryString["idArticulo"]);
-                    EliminarFavorito(idArticulo);
+                    if (Request.QueryString["idArticulo"] != null)
+                    {
+                        int idArticulo = Convert.ToInt32(Request.QueryString["idArticulo"]);
+                        EliminarFavorito(idArticulo);
+                    }
+                    Validar();
+                    UsersEntity user = (UsersEntity)Session["user"];
+                    listaArticulosFavoritos = favoritosBusiness.GetFavoritosUser(user);
                 }
-                Validar();
-                UsersEntity user = (UsersEntity)Session["user"];
-                listaArticulosFavoritos = favoritosBusiness.GetFavoritosUser(user);
             }
-            catch (System.Threading.ThreadAbortException) { }
             catch (Exception ex)
             {
                 Session.Add("error", ex.Message);

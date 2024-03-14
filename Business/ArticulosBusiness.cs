@@ -15,6 +15,14 @@ namespace Business
         {
             return articulosDAL.Get();
         }
+        public string BuscarImagenArticulo(ArticulosEntity articulo)
+        {
+            foreach(ArticulosEntity art in GetArticulo())
+            {
+                if (art.Id == articulo.Id) return art.ImagenUrl;
+            }
+            return null;
+        }
 
         public void ActualizarArticulo(ArticulosEntity art)
         {

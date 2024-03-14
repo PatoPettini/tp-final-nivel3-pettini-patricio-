@@ -15,23 +15,29 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: navy">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Catalogo</a>
+                <a class="navbar-brand" href="Inicio.aspx">
+                    <img src="https://w7.pngwing.com/pngs/621/196/png-transparent-e-commerce-logo-logo-e-commerce-electronic-business-ecommerce-angle-text-service.png" alt="logo" width="130px" />
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <%if (Session["user"] != null)
+                            { %>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="Inicio.aspx">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="ArticulosABM.aspx">Agregar Articulo</a>
-                        </li>
-                        <%if (Business.Validaciones.EsAdmin((Entity.UsersEntity)Session["user"])){ %>
+                        <%} %>
+                        <%if (Business.Validaciones.EsAdmin((Entity.UsersEntity)Session["user"]))
+                            { %>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="GrillaArticulosAdmin.aspx">Grilla Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="ArticulosABM.aspx">Agregar Articulo</a>
                         </li>
                         <%} %>
                         <div class="d-flex">
@@ -51,9 +57,9 @@
                             <a class="nav-link active" aria-current="page" href="Favoritos.aspx">Favoritos</a>
                         </li>
                         <asp:Label ID="lblUser" Text="user" CssClass="text-light m-auto me-2" BackColor="Black" runat="server" />
-                            <asp:Button ID="btnCerrarSesion" OnClick="btnCerrarSesion_Click" CssClass="btn btn-danger" runat="server" Text="Cerrar Sesion" />
-                            <asp:Image ID="ImagePerfil" runat="server" Style="height: 40px; width: 40px; border-radius: 50%;" />
-                            <%} %>
+                        <asp:Button ID="btnCerrarSesion" OnClick="btnCerrarSesion_Click" CssClass="btn btn-danger" runat="server" Text="Cerrar Sesion" />
+                        <asp:Image ID="ImagePerfil" runat="server" Style="height: 40px; width: 40px; border-radius: 50%;" />
+                        <%} %>
                     </ul>
                 </div>
             </div>

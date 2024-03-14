@@ -23,44 +23,45 @@ namespace TPFinalNivel3PettiniPatricio
         {
             try
             {
-                if (Session["user"] == null) Response.Redirect("Login.aspx");
-                if (!IsPostBack)
+                if (Session["user"] != null)
                 {
-                    listaFavoritos = favoritosBusiness.GetFavoritosUser((UsersEntity)Session["user"]);
-                    favoritos((UsersEntity)Session["user"]);
-                    if (Request.QueryString["idArticulo"] != null)
+                    if (!IsPostBack)
                     {
-                        int idArticulo = Convert.ToInt32(Request.QueryString["idArticulo"]);
-                        AgregarFavorito(idArticulo);
+                        listaFavoritos = favoritosBusiness.GetFavoritosUser((UsersEntity)Session["user"]);
+                        favoritos((UsersEntity)Session["user"]);
+                        if (Request.QueryString["idArticulo"] != null)
+                        {
+                            int idArticulo = Convert.ToInt32(Request.QueryString["idArticulo"]);
+                            AgregarFavorito(idArticulo);
+                        }
+                        if (Request.QueryString["idEliminarArticulo"] != null)
+                        {
+                            int idArticulo = Convert.ToInt32(Request.QueryString["idEliminarArticulo"]);
+                            EliminarFavorito(idArticulo);
+                        }
+                        Session.Add("listaArticulos", articulosBusiness.GetArticulo());
+                        ddlCategoria.DataSource = categoriasBusiness.GetCategorias();
+                        ddlCategoria.DataTextField = "Descripcion";
+                        ddlCategoria.DataValueField = "id";
+                        ddlCategoria.DataBind();
+                        ddlCategoria.Items.Add("Cualquiera");
+                        ddlMarca.DataSource = marcasBusiness.GetMarcas();
+                        ddlMarca.DataTextField = "Descripcion";
+                        ddlMarca.DataValueField = "id";
+                        ddlMarca.DataBind();
+                        ddlMarca.Items.Add("Cualquiera");
+                        Session.Add("listaArticulos", articulosBusiness.GetArticulo());
                     }
-                    if (Request.QueryString["idEliminarArticulo"] != null)
+                    ListaArticulos = (List<ArticulosEntity>)Session["listaArticulos"];
+                    if (chkFiltroAvanzado.Checked)
                     {
-                        int idArticulo = Convert.ToInt32(Request.QueryString["idEliminarArticulo"]);
-                        EliminarFavorito(idArticulo);
+                        txtArticulo.Enabled = false;
+                        txtArticulo.Text = "";
                     }
-                    Session.Add("listaArticulos", articulosBusiness.GetArticulo());
-                    ddlCategoria.DataSource = categoriasBusiness.GetCategorias();
-                    ddlCategoria.DataTextField = "Descripcion";
-                    ddlCategoria.DataValueField = "id";
-                    ddlCategoria.DataBind();
-                    ddlCategoria.Items.Add("Cualquiera");
-                    ddlMarca.DataSource = marcasBusiness.GetMarcas();
-                    ddlMarca.DataTextField = "Descripcion";
-                    ddlMarca.DataValueField = "id";
-                    ddlMarca.DataBind();
-                    ddlMarca.Items.Add("Cualquiera");
-                    Session.Add("listaArticulos", articulosBusiness.GetArticulo());
-                    Validar();
+                    else txtArticulo.Enabled = true;
                 }
-                ListaArticulos = (List<ArticulosEntity>)Session["listaArticulos"];
-                if (chkFiltroAvanzado.Checked)
-                {
-                    txtArticulo.Enabled = false;
-                    txtArticulo.Text = "";
-                }
-                else txtArticulo.Enabled = true;
+                Validar();
             }
-            catch (System.Threading.ThreadAbortException) { }
             catch (Exception ex)
             {
                 Session.Add("error", ex.Message);

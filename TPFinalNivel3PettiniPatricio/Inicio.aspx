@@ -35,9 +35,9 @@
                     <div class="col-3">
                         <div class="mb-3">
                             <asp:Label ID="Label4" runat="server" Text="Precio Minimo"></asp:Label>
-                            <asp:TextBox ID="txtPrecioDesde" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtPrecioDesde" CssClass="form-control" runat="server"></asp:TextBox>
                             <asp:Label ID="Label5" runat="server" Text="Precio Maximo"></asp:Label>
-                            <asp:TextBox ID="txtPrecioHasta" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtPrecioHasta" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                     </div>
                     <div class="col-3">
@@ -60,7 +60,8 @@
 
                 <div class="col">
                     <div class="card">
-                        <% if (articulo.ImagenUrl == "articulo-" + articulo.Codigo + articulo.Nombre + articulo.Descripcion + articulo.idMarca + articulo.idCategoria + Convert.ToInt32(articulo.Precio) + ".jpg")
+                        <% if (articulo.ImagenUrl == "articulo-" + articulo.Codigo + ".jpg" || string.IsNullOrEmpty
+                                (articulo.ImagenUrl))
                             {%>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmirI4PxLNSAAUf4tBZCiZjUtwrpt9oVu6NIshLIdqjNK9wWcjXgtWRr81WMbgJ7HuVlc&usqp=CAU" class="card-img-top" alt="...">
                         <%}
@@ -120,7 +121,15 @@
                 %>
                 <div class="col">
                     <div class="card">
+                        <% if (articulo.ImagenUrl == "articulo-" + articulo.Codigo + ".jpg" || string.IsNullOrEmpty
+                                (articulo.ImagenUrl))
+                            {%>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmirI4PxLNSAAUf4tBZCiZjUtwrpt9oVu6NIshLIdqjNK9wWcjXgtWRr81WMbgJ7HuVlc&usqp=CAU" class="card-img-top" alt="...">
+                        <%}
+                            else
+                            { %>
                         <img src="<%:articulo.ImagenUrl%>" class="card-img-top" alt="...">
+                        <%} %>
                         <div class="card-body">
                             <h5 class="card-title"><%: articulo.Nombre %></h5>
                             <p class="card-text"><%: articulo.Marca.Descripcion %></p>
@@ -128,9 +137,9 @@
                             <%if (!EsAdmin)
                                 {%>
                             <a href="ArticulosABM.aspx?id=<%: articulo.Id %>">Ver</a>
-                            <%} %>
-                            <%if (EsAdmin)
-                                {%>
+                            <%}
+                            else
+                            { %>
                             <a class="btn btn-primary" href="ArticulosABM.aspx?id=<%:articulo.Id%>">Accion</a>
                             <%}%>
                             <% if (ValidarFavoritos(articulo) == true)
