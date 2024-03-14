@@ -25,7 +25,7 @@ namespace TPFinalNivel3PettiniPatricio
                 lblUser.Text = user.Nombre;
                 if (!string.IsNullOrEmpty(user.urlImagenPerfil))
                 {
-                    ImagePerfil.ImageUrl = "~/Images/" + user.urlImagenPerfil;
+                    ImagePerfil.ImageUrl = user.urlImagenPerfil;
                 }
                 if (Page is Registro || Page is LogIn)
                 {

@@ -60,8 +60,7 @@
 
                 <div class="col">
                     <div class="card">
-                        <% if (articulo.ImagenUrl == "articulo-" + articulo.Codigo + ".jpg" || string.IsNullOrEmpty
-                                (articulo.ImagenUrl))
+                        <% if ( string.IsNullOrEmpty(articulo.ImagenUrl))
                             {%>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmirI4PxLNSAAUf4tBZCiZjUtwrpt9oVu6NIshLIdqjNK9wWcjXgtWRr81WMbgJ7HuVlc&usqp=CAU" class="card-img-top" alt="...">
                         <%}

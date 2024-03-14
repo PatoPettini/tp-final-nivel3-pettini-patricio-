@@ -64,12 +64,6 @@
             <div class="mb-3">
                 <label for="txtImagen" class="form-label">Imagen de Perfil</label>
                 <asp:TextBox ID="txtImagenTexto" CssClass="form-control" runat="server"></asp:TextBox>
-                <asp:CheckBox ID="chkAgregarImagen" AutoPostBack="true" OnCheckedChanged="chkAgregarImagen_CheckedChanged" CssClass="form-control" Text="Agregar Imagen desde mi pc" runat="server" />
-                <%if (chkAgregarImagen.Checked)
-                    {%>
-                <input type="file" id="txtImagen" class="form-control" runat="server" />
-                <%}
-%>
                 <asp:Image ID="ImagenID" Width="30%" CssClass="img-fluid mb-3" ImageUrl="https://acortar.link/fHURIm" runat="server" />
             </div>
             <div class="mb-3">

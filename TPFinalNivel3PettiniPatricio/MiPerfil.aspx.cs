@@ -31,9 +31,8 @@ namespace TPFinalNivel3PettiniPatricio
                         txtApellido.Text = user.Apellido;
                         txtAdmin.Text = user.admin.ToString();
                         txtAdmin.Enabled = false;
-                        if (user.urlImagenPerfil == null) ImagenID.ImageUrl = "https://thumbs.dreamstime.com/b/perfil-de-usuario-vectorial-avatar-predeterminado-179376714.jpg";
-                        else if (user.urlImagenPerfil == "user-" + user.Id + ".jpg") ImagenID.ImageUrl = "~/Images/" + user.urlImagenPerfil;
-                        else ImagenID.ImageUrl = user.urlImagenPerfil;
+                        txtImagenTexto.Text = user.urlImagenPerfil;
+                        ImagenID.ImageUrl = user.urlImagenPerfil;
                     }
                     else
                     {
@@ -62,10 +61,7 @@ namespace TPFinalNivel3PettiniPatricio
 
                 user.Nombre = txtNombre.Text;
                 user.Apellido = txtApellido.Text;
-                if (!string.IsNullOrEmpty(ValidarMetodoDeImagen(user)))
-                {
-                    user.urlImagenPerfil = ValidarMetodoDeImagen(user);
-                }
+                if (txtImagenTexto.Text != "") user.urlImagenPerfil = txtImagenTexto.Text;
                 usersBusiness.Actualizar(user);
                 Session.Add("user", user);
                 Response.Redirect("MiPerfil.aspx", false);
@@ -80,46 +76,12 @@ namespace TPFinalNivel3PettiniPatricio
                 Response.Redirect("error.aspx");
             }
         }
-
-        private string ValidarMetodoDeImagen(UsersEntity user)
-        {
-            if (!chkAgregarImagen.Checked) return txtImagenTexto.Text;
-            else if (txtImagen.PostedFile.FileName != "")
-            {
-                string ruta = Server.MapPath("./Images/");
-                var foto = "user-" + user.Id + ".jpg";
-                txtImagen.PostedFile.SaveAs(ruta + foto);
-                return foto;
-            }
-            return null;
-        }
-
         public bool ValidarImagen()
         {
 
             UsersEntity user = (UsersEntity)Session["user"];
             if (!string.IsNullOrEmpty(user.urlImagenPerfil)) return true;
             return false;
-        }
-
-        protected void chkAgregarImagen_CheckedChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (chkAgregarImagen.Checked)
-                {
-                    txtImagenTexto.Enabled = false; txtImagen.Visible = true; txtImagenTexto.Text = "";
-                }
-                else
-                {
-                    txtImagenTexto.Enabled = true; txtImagen.Visible = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Session.Add("error", ex.Message);
-                Response.Redirect("error.aspx");
-            }
         }
 
         protected void btnEliminarImagen_Click(object sender, EventArgs e)

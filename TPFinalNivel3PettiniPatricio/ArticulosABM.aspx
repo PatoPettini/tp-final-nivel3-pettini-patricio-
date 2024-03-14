@@ -11,14 +11,6 @@
             <div class="mb-3">
                 <label for="txtImagen" class="form-label">Imagen</label>
                 <asp:TextBox ID="txtImagen" OnTextChanged="txtImagen_TextChanged" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
-                <%if (Business.Validaciones.EsAdmin((Entity.UsersEntity)Session["user"]))
-                    { %>
-                <asp:CheckBox ID="chkAgregarImagen" OnCheckedChanged="chkAgregarImagen_CheckedChanged" AutoPostBack="true" Text="Agregar Imagen desde mi PC" runat="server" />
-                <%if (chkAgregarImagen.Checked)
-                    {%>
-                <input type="file" id="ImagenArticulo" class="form-control" runat="server" />
-                <%} %>
-                <%} %>
             </div>
             <div class="mb-3">
                 <asp:Image ID="imagenID" ImageUrl="https://acortar.link/fHURIm" Width="70%" runat="server" />

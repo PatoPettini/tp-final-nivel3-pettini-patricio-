@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.WebRequestMethods;
 
 namespace TPFinalNivel3PettiniPatricio
 {
@@ -34,13 +35,8 @@ namespace TPFinalNivel3PettiniPatricio
                         ddlCategoria.SelectedValue = articulo.Categoria.Id.ToString();
                         ddlMarca.SelectedValue = articulo.Marca.Id.ToString();
                         txtPrecio.Text = articulo.Precio.ToString();
-                        if (string.IsNullOrEmpty(articulo.ImagenUrl)) imagenID.ImageUrl = "https://acortar.link/fHURIm";
-                        else if (articulo.ImagenUrl == "articulo-" + articulo.Codigo + ".jpg") imagenID.ImageUrl = "~/Images/" + articulo.ImagenUrl;
-                        else
-                        {
-                            txtImagen.Text = articulo.ImagenUrl;
-                            imagenID.ImageUrl = articulo.ImagenUrl;
-                        }
+                        txtImagen.Text = articulo.ImagenUrl;
+                        imagenID.ImageUrl = articulo.ImagenUrl;
                     }
                     UsersEntity user = (UsersEntity)Session["user"];
                     if (!Validaciones.EsAdmin(user))
@@ -126,7 +122,7 @@ namespace TPFinalNivel3PettiniPatricio
                 if (Request.QueryString["id"] != null)
                 {
                     articulo.Id = Convert.ToInt32(Request.QueryString["id"]);
-                    if (!string.IsNullOrEmpty(ValidarMetodoDeImagen(articulo))) articulo.ImagenUrl = ValidarMetodoDeImagen(articulo);
+                    if (!string.IsNullOrEmpty(txtImagen.Text)) articulo.ImagenUrl = txtImagen.Text;
                     else articulo.ImagenUrl = articulosBusiness.BuscarImagenArticulo(articulo);
                     articulosBusiness.ActualizarArticulo(articulo);
                     Response.Redirect("ArticulosABM.aspx?id=" + articulo.Id, false);
@@ -138,7 +134,8 @@ namespace TPFinalNivel3PettiniPatricio
                         Session.Add("error", "Debes completar todos los campos");
                         Response.Redirect("error.aspx");
                     }
-                    if (!string.IsNullOrEmpty(ValidarMetodoDeImagen(articulo))) articulo.ImagenUrl = ValidarMetodoDeImagen(articulo);
+                    if (articulo.ImagenUrl != "") articulo.ImagenUrl = txtImagen.Text;
+                    if (articulo.ImagenUrl == "") articulo.ImagenUrl = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
                     articulosBusiness.AltaArticulo(articulo);
                     Response.Redirect("Inicio.aspx", false);
                 }
@@ -150,23 +147,6 @@ namespace TPFinalNivel3PettiniPatricio
                 Response.Redirect("error.aspx");
             }
         }
-
-        private string ValidarMetodoDeImagen(ArticulosEntity articulo)
-        {
-            if (!chkAgregarImagen.Checked) return txtImagen.Text;
-            else
-            {
-                if (ImagenArticulo.PostedFile.FileName != "")
-                {
-                    string ruta = Server.MapPath("./Images/");
-                    var foto = "articulo-" + articulo.Codigo + ".jpg";
-                    ImagenArticulo.PostedFile.SaveAs(ruta + foto);
-                    return foto;
-                }
-            }
-            return null;
-        }
-
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             ConfirmarEliminacion = true;
@@ -251,19 +231,6 @@ namespace TPFinalNivel3PettiniPatricio
             {
                 Session.Add("error", ex.Message);
                 Response.Redirect("error.aspx");
-            }
-
-        }
-
-        protected void chkAgregarImagen_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkAgregarImagen.Checked)
-            {
-                txtImagen.Enabled = false; ImagenArticulo.Visible = true;
-            }
-            else
-            {
-                txtImagen.Enabled = true; ImagenArticulo.Visible = false;
             }
 
         }
